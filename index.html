@@ -200,6 +200,48 @@
       from { transform: scale(.96); opacity: 0; }
       to { transform: scale(1); opacity: 1; }
     }
+
+        .vibe {
+      width: min(560px, 94%);
+      margin: 14px auto 0;
+      padding: 14px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.55);
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,.06);
+    }
+    
+    .vibeTitle { margin: 0 0 10px; }
+    
+    .vibeGrid{
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+    
+    @media (min-width: 520px){
+      .vibeGrid{ grid-template-columns: 1fr 1fr 1fr; }
+    }
+    
+    .vibeBtn{
+      position: static;
+      transform: none;
+      padding: 12px 12px;
+      font-size: 14px;
+      border-radius: 14px;
+      font-weight: 800;
+      background: #fff;
+      color: #111827;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,.12), 0 10px 22px rgba(0,0,0,.08);
+    }
+    
+    .vibeBtn:active{ transform: scale(.98); }
+    
+    .vibeChosen{
+      margin: 12px 0 0;
+      font-weight: 800;
+      text-align: center;
+    }
+
   </style>
 </head>
 
@@ -268,6 +310,18 @@
         <p><span class="label">Things to do:</span> TBD 😈</p>
         <p style="margin-top:12px;"><span class="label">Your mission:</span> send me “YES ❤️” so I can lock it in.</p>
       </div>
+      
+      <div class="vibe" id="vibe">
+        <p class="vibeTitle"><strong>Pick our vibe 💘</strong></p>
+      
+        <div class="vibeGrid">
+          <button class="vibeBtn" data-vibe="Movie + wine 🍷">Movie + wine 🍷</button>
+          <button class="vibeBtn" data-vibe="Games night 🎮">Games night 🎮</button>
+          <button class="vibeBtn" data-vibe="Deep talk + playlist 💬">Deep talk + playlist 💬</button>
+        </div>
+      
+        <p class="vibeChosen" id="vibeChosen" style="display:none;"></p>
+      </div>
 
       <div class="actions">
         <button class="actionBtn" id="addToCalBtn">Add to Calendar</button>
@@ -276,8 +330,8 @@
 
       <img
         class="fireworks"
-        src="https://media.giphy.com/media/26ufdipQqU2lhNA4g/giphy.gif"
-        alt="Fireworks"
+        src="https://media.tenor.com/8mKpT0k3YJgAAAAC/love-bear.gif"
+        alt="Cute love gif"
       />
     </section>
   </main>
@@ -462,6 +516,37 @@
         alert(msg);
       }
     });
+
+        /* ---------- VIBE PICKER ---------- */
+    const vibeButtons = document.querySelectorAll(".vibeBtn");
+    const vibeChosen = document.getElementById("vibeChosen");
+    
+    vibeButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        const choice = btn.dataset.vibe;
+    
+        // lock UI
+        vibeButtons.forEach(b => {
+          b.disabled = true;
+          b.style.opacity = "0.7";
+        });
+        btn.style.opacity = "1";
+        btn.style.outline = "3px solid rgba(255,59,122,.35)";
+    
+        vibeChosen.style.display = "block";
+        vibeChosen.textContent = `Locked in: ${choice} 😈💖`;
+    
+        // small celebration burst
+        confettiInstance({
+          particleCount: 120,
+          spread: 90,
+          startVelocity: 45,
+          ticks: 180,
+          origin: { x: 0.5, y: 0.55 }
+        });
+      });
+    });
+
   </script>
 </body>
 </html>
