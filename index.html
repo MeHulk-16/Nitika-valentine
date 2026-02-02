@@ -237,6 +237,7 @@
     .vibeBtn:active{ transform: scale(.98); }
     
     .vibeChosen{
+      let selectedVibe = "";
       margin: 12px 0 0;
       font-weight: 800;
       text-align: center;
@@ -506,8 +507,11 @@
     addToCalBtn.addEventListener("click", downloadICS);
 
     /* ---------- COPY CUTE REPLY ---------- */
-    copyMsgBtn.addEventListener("click", async () => {
-      const msg = "YES ❤️🌹 I’m your Valentine. I’ll wear red for you. Now tell me… what are the TBD plans 😈";
+    const vibeText = selectedVibe ? `I pick: ${selectedVibe} 💘\n` : "";
+    const msg =
+      `YES ❤️🌹 I’m your Valentine. I’ll wear red for you.\n` +
+      vibeText +
+      `Now tell me… what are the TBD plans 😈`;
       try {
         await navigator.clipboard.writeText(msg);
         copyMsgBtn.textContent = "Copied ✅";
@@ -524,6 +528,7 @@
     vibeButtons.forEach(btn => {
       btn.addEventListener("click", () => {
         const choice = btn.dataset.vibe;
+        selectedVibe = choice;
     
         // lock UI
         vibeButtons.forEach(b => {
